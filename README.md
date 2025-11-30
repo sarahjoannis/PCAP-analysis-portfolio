@@ -56,7 +56,7 @@ I focused on HTTP POST requests (`http.request.method == "POST"`) because file u
 
 > **Why it matters:** Knowing the server IP helps map the network path and confirm where the file was sent.
 
-![Screenshot of the HTTP POST request packet details showing the server IP](screenshots/02_server_ip.png)
+![Screenshot of the HTTP POST request packet details showing the server IP](screenshot/02_server_ip.png)
 
 ### 3. Identifying the File Name
 
@@ -66,7 +66,7 @@ Within the POST packet, I expanded the MIME multipart encapsulation to locate th
 
 > **Why it matters:** This step links the network activity to the actual file being transferred, which is essential for forensic documentation.
 
-![Screenshot showing the Content-Disposition header and the extracted file name](screenshots/03_file_name.png)
+![Screenshot showing the Content-Disposition header and the extracted file name](screenshot/03_file_name.png)
 
 ### 4. Identifying the Web Server Name
 
@@ -76,7 +76,7 @@ To confirm the upload destination, I looked for a response packet with `HTTP/1.1
 
 > **Why it matters:** Knowing the server software can help understand server behavior and potential vulnerabilities.
 
-![Screenshot of the HTTP 200 OK response header revealing the server name](screenshots/04_web_server_name.png)
+![Screenshot of the HTTP 200 OK response header revealing the server name](screenshot/04_web_server_name.png)
 
 ### 5. Determining the Upload Directory
 
@@ -86,7 +86,7 @@ Analyzing the HTTP POST request headers and line-based text data showed the dire
 
 > **Why it matters:** Tracking the directory confirms the file location on the server, completing the forensic picture of the transfer.
 
-![Screenshot showing the directory path extracted from the HTTP POST request](screenshots/05_upload_directory.png)
+![Screenshot showing the directory path extracted from the HTTP POST request](screenshot/05_upload_directory.png)
 
 ### 6. Calculating File Upload Duration
 
@@ -99,7 +99,7 @@ To determine how long the file transfer took, I analyzed the TCP stream correspo
 
 > **Why it matters:** Calculating transfer duration demonstrates network performance and session accuracy. It also confirms that the correct data was analyzed, linking the technical investigation back to measurable results.
 
-![Screenshot of Wireshark's TCP Stream graph/statistics showing the duration](screenshots_06_upload_duration.png)
+![Screenshot of Wireshark's TCP Stream graph/statistics showing the duration](screenshot/06_upload_duration.png)
 
 ---
 
