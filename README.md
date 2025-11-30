@@ -53,7 +53,7 @@ tcp contains "P13"
 Source IP: 192.168.235.137  
 Destination IP: 192.168.235.131
 ```
-[description of image](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-3e3f90c1c99e59905c1ded146aa3e86ed3d4a45731b18d0fa63f1e3bba3fe83c)*
+[Tcp analysis](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-3e3f90c1c99e59905c1ded146aa3e86ed3d4a45731b18d0fa63f1e3bba3fe83c)
 
 ### **2. Identifying the Server IP Address**
 
@@ -95,8 +95,7 @@ Filename: file
 * Examined the **Hypertext Transfer Protocol** header
 * Server name: **Apache**
 
-*Insert screenshot here*
-
+[web server name](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-29063966ebbc95b9fa6785631a8724f38957679b3131742f9569da3715da1f21)
 ---
 
 ### **5. Determining the Upload Directory**
