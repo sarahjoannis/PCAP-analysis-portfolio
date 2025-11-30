@@ -84,8 +84,7 @@ MIME → Multipart Media Encapsulation → Multipart Encapsulated Part
 Filename: file
 ```
 
-*Insert screenshot here*
-
+[Filename](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-38e5e3cbfad0802bf7e03110213de1c58ae159285918a7700667964f96b12972)
 ---
 
 ### **4. Identifying the Web Server**
