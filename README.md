@@ -106,8 +106,7 @@ File uploaded at uploads/file
 
 * Upload directory: **/uploads/**
 
-*Insert screenshot here*
-
+[Directory](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-c62c8ab6300676316eacfb807a5e248dcd26ede4f066d213d40888d3f2dc42da)
 ---
 
 ---
