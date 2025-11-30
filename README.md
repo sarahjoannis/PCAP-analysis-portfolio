@@ -131,8 +131,7 @@ File uploaded at uploads/file
 
    * The total upload duration was **0.0073 seconds**.
 
-*Insert screenshot here*
-
+[Duration](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-171223f78855f0940b4811763ebd2d951bf0e88e7f781cad5d3b7ddcb9699fae)
 ---
 
 ---
