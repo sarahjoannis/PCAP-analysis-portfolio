@@ -53,10 +53,7 @@ tcp contains "P13"
 Source IP: 192.168.235.137  
 Destination IP: 192.168.235.131
 ```
-
-*Insert screenshot here*
-
----
+[description of image](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-3e3f90c1c99e59905c1ded146aa3e86ed3d4a45731b18d0fa63f1e3bba3fe83c)*
 
 ### **2. Identifying the Server IP Address**
 
