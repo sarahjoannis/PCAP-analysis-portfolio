@@ -1,11 +1,9 @@
-# PCAP-analysis-portfolio
+# PCAP Analysis Portfolio
 A detailed PCAP analysis and network forensics investigation of a file transfer from host p13, demonstrating packet-level analysis, HTTP inspection, and investigative reasoning.
 
----
+## PCAP Analysis Challenge – Network Forensics Investigation
 
-# **PCAP Analysis Challenge – Network Forensics Investigation**
-
-This project showcases my ability to perform **packet capture (PCAP) analysis**, investigate network behavior, and extract meaningful forensic conclusions from raw traffic data. The challenge involved analyzing network packets from **host p13** and identifying key details related to a file transfer over the network.
+This project showcases my ability to perform packet capture (PCAP) analysis, investigate network behavior, and extract meaningful forensic conclusions from raw traffic data. The challenge involved analyzing network packets from host p13 and identifying key details related to a file transfer over the network.
 
 This repository includes:
 
@@ -13,147 +11,115 @@ This repository includes:
 * Screenshots of analysis steps
 * Key insights and conclusions
 
----
-
-## **Objectives**
+## Objectives
 
 The goal of this investigation was to identify:
 
-1. IP address of the sender and receiver in network communication
-2. IP address of the server
-3. Name of the file sent through the network
-4. Name of the web server that received the uploaded file
-5. Directory where the file was uploaded
-6. Total time taken to send the encrypted file
+* IP address of the sender and receiver in network communication
+* IP address of the server
+* Name of the file sent through the network
+* Name of the web server that received the uploaded file
+* Directory where the file was uploaded
+* Total time taken to send the encrypted file
+
+## Tools and Techniques
+
+I used **Wireshark**, a network protocol analyzer, to:
+
+* Filter network traffic using specific queries (e.g., TCP streams, HTTP POST requests)
+* Reconstruct communication sessions between sender and receiver
+* Examine HTTP headers and multipart data to extract file upload details
+* Analyze packet timestamps to calculate transfer duration
+
+These techniques allowed me to analyze raw network traffic and present clear, actionable findings.
 
 ---
 
-## **Tools and Techniques**
+## Investigation Steps
 
-* **Wireshark** for filtering traffic, following streams, and inspecting protocol behavior
-* **TCP stream analysis** to reconstruct communication and reassemble the uploaded file’s data
-* **HTTP POST inspection** to identify file upload details, including filename, server, and directory
-* **Packet timestamps** to calculate file transfer duration
+### 1. Identifying Sender and Receiver IP Addresses
 
----
+To start, I filtered traffic associated with host p13 using TCP filters in Wireshark. This allowed me to isolate the packets sent and received by the host.
 
-## **Investigation Steps**
+* **Source IP:** `192.168.235.137`
+* **Destination IP:** `192.168.235.131`
 
-### **1. Identifying Sender and Receiver IP Addresses**
+> **Why it matters:** Identifying IP addresses is crucial to trace the flow of data and distinguish between the client (sender) and server (receiver) in the network.
 
-* Filtered traffic associated with host p13 using:
+**![Screenshot showing Wireshark filter and identified source/destination IPs](images/screenshot-step-1-ip-identification.png)**
 
-```
-tcp contains "P13"
-```
+### 2. Determining the Server IP Address
 
-* Identified IP addresses:
+I focused on HTTP POST requests (`http.request.method == "POST"`) because file uploads typically use this method. By examining the packet details and destination IP, I determined the server address:
 
-```
-Source IP: 192.168.235.137  
-Destination IP: 192.168.235.131
-```
-[Tcp analysis](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-3e3f90c1c99e59905c1ded146aa3e86ed3d4a45731b18d0fa63f1e3bba3fe83c)
+* **Server IP:** `192.168.1.7`
 
-### **2. Identifying the Server IP Address**
+> **Why it matters:** Knowing the server IP helps map the network path and confirm where the file was sent.
 
-* Filtered for HTTP POST requests:
+**![Screenshot of the HTTP POST request packet details showing the server IP](images/screenshot-step-2-server-ip.png)**
 
-```
-http.request.method == "POST"
-```
+### 3. Identifying the File Name
 
-* Examined the Internet Protocol layer in the relevant packet
-* Server IP found: `192.168.1.7`
+Within the POST packet, I expanded the MIME multipart encapsulation to locate the `Content-Disposition` header, which contained the uploaded file name:
 
-[receiver IP](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-f891e961c6d3a7351d3f44ca9e25caf4f9c1c01331aa81cf69bea7bb005ae1da)
----
+* **Filename:** `file`
 
-### **3. Determining the File Name**
+> **Why it matters:** This step links the network activity to the actual file being transferred, which is essential for forensic documentation.
 
-* Used the same HTTP POST filter
-* Expanded:
+**![Screenshot showing the Content-Disposition header and the extracted file name](images/screenshot-step-3-filename.png)**
 
-```
-MIME → Multipart Media Encapsulation → Multipart Encapsulated Part
-```
+### 4. Identifying the Web Server Name
 
-* Found file name under **Content-Disposition**:
+To confirm the upload destination, I looked for a response packet with `HTTP/1.1 200 OK`. Inspecting the HTTP header revealed the server software:
 
-```
-Filename: file
-```
+* **Web Server:** `Apache`
 
-[Filename](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-38e5e3cbfad0802bf7e03110213de1c58ae159285918a7700667964f96b12972)
----
+> **Why it matters:** Knowing the server software can help understand server behavior and potential vulnerabilities.
 
-### **4. Identifying the Web Server**
+**![Screenshot of the HTTP 200 OK response header revealing the server name](images/screenshot-step-4-webserver.png)**
 
-* Filtered for HTTP responses with `HTTP/1.1 200 OK`
-* Examined the **Hypertext Transfer Protocol** header
-* Server name: **Apache**
+### 5. Determining the Upload Directory
 
-[web server name](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-ea75d08d884785d5d712c1533b85e8d2e765ad14b2e50a816593099207ce1f28)---
+Analyzing the HTTP POST request headers and line-based text data showed the directory path:
 
-### **5. Determining the Upload Directory**
+* **Upload Directory:** `/uploads/`
 
-* Expanded **Line-based Text Data** in the POST request
-* Observed:
+> **Why it matters:** Tracking the directory confirms the file location on the server, completing the forensic picture of the transfer.
 
-```
-File uploaded at uploads/file
-```
+**![Screenshot showing the directory path extracted from the HTTP POST request](images/screenshot-step-5-directory.png)**
 
-* Upload directory: **/uploads/**
+### 6. Calculating File Upload Duration
 
-[Directory](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-c62c8ab6300676316eacfb807a5e248dcd26ede4f066d213d40888d3f2dc42da)
----
+To determine how long the file transfer took, I analyzed the TCP stream corresponding to the upload using Wireshark’s **Statistics → TCP Stream** feature.
+
+* **Filter the relevant traffic:** Used the source and destination IPs identified earlier to isolate packets involved in the file transfer. Ensured the byte size matched the uploaded file, confirming the correct stream.
+* **Examine the stream duration:** Wireshark displays the total duration of the TCP stream and the bytes transferred, providing an accurate measure of the upload time.
+* **Validate the stream:** Confirmed the stream by checking that both the payload size and the source/destination IPs matched the expected transfer.
+* **Record the result:** The file upload took **`0.0073 seconds`**.
+
+> **Why it matters:** Calculating transfer duration demonstrates network performance and session accuracy. It also confirms that the correct data was analyzed, linking the technical investigation back to measurable results.
+
+**![Screenshot of Wireshark's TCP Stream graph/statistics showing the duration](images/screenshot-step-6-duration.png)**
 
 ---
 
-### **6. Calculating Upload Duration (Using Statistics Conversion)**
+## Summary of Findings
 
-1. **Go to Statistics** → **Conversion** → **TCP Stream**.
-2. **Identify the stream**:
+| Item | Result |
+| :--- | :--- |
+| **Sender IP** | `192.168.235.137` |
+| **Receiver IP** | `192.168.235.131` |
+| **Server IP** | `192.168.1.7` |
+| **File Name** | `file` |
+| **Web Server** | `Apache` |
+| **Upload Directory** | `/uploads/` |
+| **Upload Duration** | `0.0073 seconds` |
 
-   * Filter for the **source** and **destination IP** involved in the file transfer (based on the IP addresses you identified earlier).
-   * Look for the **TCP stream** that contains the file payload, ensuring that the **byte size** corresponds to the file transfer size.
-3. **View the duration**:
-
-   * In the **TCP Stream** window, Wireshark will show the **duration** of the transfer along with the **bytes transferred**.
-4. **Confirm the stream**:
-
-   * By matching the **payload size** and the **source/destination IPs**, you can confirm you're looking at the correct stream.
-5. **Record the total duration**:
-
-   * The total upload duration was **0.0073 seconds**.
-
-[Duration](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-171223f78855f0940b4811763ebd2d951bf0e88e7f781cad5d3b7ddcb9699fae)
----
-
----
-
-## **Summary of Findings**
-
-| **Item**             | **Result**                          |
-| -------------------- | ----------------------------------- |
-| **Sender IP**        | 192.168.235.137                     |
-| **Receiver IP**      | 192.168.235.131                     |
-| **Server IP**        | 192.168.1.7                         |
-| **File Name**        | file                                |
-| **Web Server**       | Apache                              |
-| **Upload Directory** | /uploads/                           |
-| **Upload Duration**  | 0.0073 seconds                      |
-
----
-
-## **Lessons Learned**
+## Lessons Learned
 
 Working through this PCAP analysis challenge was a rewarding experience that reminded me how powerful and fascinating network forensics can be. Starting from raw packets and piecing together the entire story — from identifying IP addresses to uncovering the file name, upload directory, and timing — felt like solving a real digital mystery.
 
 This process deepened my appreciation for the details hidden in network traffic and strengthened my investigative mindset. It reinforced the importance of patience and careful observation when interpreting data that, at first glance, might seem like noise.
 
 For me, this project was a great reminder to trust the process, follow the clues, and never underestimate the value of a methodical approach.
-
----
 
