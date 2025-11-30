@@ -94,8 +94,7 @@ Filename: file
 * Examined the **Hypertext Transfer Protocol** header
 * Server name: **Apache**
 
-[web server name](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-29063966ebbc95b9fa6785631a8724f38957679b3131742f9569da3715da1f21)
----
+[web server name](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-ea75d08d884785d5d712c1533b85e8d2e765ad14b2e50a816593099207ce1f28)---
 
 ### **5. Determining the Upload Directory**
 
