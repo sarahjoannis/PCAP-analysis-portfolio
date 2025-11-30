@@ -66,8 +66,7 @@ http.request.method == "POST"
 * Examined the Internet Protocol layer in the relevant packet
 * Server IP found: `192.168.1.7`
 
-*Insert screenshot here*
-
+[receiver IP](https://github.com/sarahjoannis/PCAP-analysis-portfolio/commit/869e6942ab8c8e17877a778a1f1b6483b7bad2ea#diff-f891e961c6d3a7351d3f44ca9e25caf4f9c1c01331aa81cf69bea7bb005ae1da)
 ---
 
 ### **3. Determining the File Name**
